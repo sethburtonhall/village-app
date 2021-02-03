@@ -34,7 +34,8 @@ module.exports = {
       yellow: colors.amber,
       purple: colors.purple,
       orange: colors.orange,
-      green: colors.emerald
+      green: colors.emerald,
+      red: colors.red
     },
     // fill: theme => theme(colors),
     extend: {
@@ -47,9 +48,11 @@ module.exports = {
       // }),
     }
   },
-
   variants: {
-    extend: {}
+    // The 'active' variant will be generated in addition to the defaults
+    extend: {
+      backgroundColor: ['active']
+    }
   },
-  plugins: []
+  plugins: [require('@tailwindcss/forms')]
 };

@@ -1,0 +1,32 @@
+import Cookies from 'universal-cookie';
+
+import AccountTexts from '../i18n/AccountTexts';
+import CoreTexts from '../i18n/CoreTexts';
+
+export function getText(type, text) {
+  const cookies = new Cookies();
+
+  let locale = cookies.get(CoreTexts['en-us']['LOCALE']);
+
+  if (locale === undefined) {
+    locale = 'en-us';
+  }
+
+  const defaultText = 'No text found';
+
+  if (type !== 'ACCOUNT') {
+    return defaultText;
+  }
+
+  let localeText = '';
+
+  if (type === 'ACCOUNT') {
+    localeText = AccountTexts[locale][text];
+  }
+
+  if (localeText === undefined) {
+    return defaultText;
+  }
+
+  return localeText;
+}
