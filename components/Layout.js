@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '../state/AuthContext';
 import { useRouter } from 'next/router';
-import { supabase } from '../state/Store';
+import { supabase } from '../supabase';
 
 import ThemeChanger from './ThemeChanger';
 import Meta from './Meta';

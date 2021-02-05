@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { supabase } from '../state/Store';
+import { supabase } from '../supabase';
 
 const AuthContext = React.createContext();
 
@@ -28,24 +28,19 @@ export function AuthProvider({ children }) {
 
   const signUp = async (firstName, lastName, email, password) => {
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: email,
         password: password
       });
-      // let { rpcData, rpcError } = await supabase.rpc(
-      //   'signup_copy_to_users_table',
-      //   {
-      //     first_name: firstName,
-      //     last_name: lastName,
-      //     email: email
-      //   }
-      // );
+      await supabase
+        .from('users')
+        .insert([{ first_name: firstName, last_name: lastName }]);
 
-      // if (rpcData) console.error(rpcError);
-      // else console.log(rpcData);
-      // await supabase
-      //   .from('users')
-      //   .insert([{ first_name: firstName, last_name: lastName, email: email }]);
+      // if (error) {
+      //   alert('users name insert' + ' ' + error.message);
+      //   console.error(error, error.message);
+      //   return;
+      // }
       if (error) {
         alert('auth.signUp' + ' ' + error.message);
         console.error(error, error.message);
@@ -121,12 +116,29 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updatePassword = async (password) => {
+    try {
+      const { error } = await supabase.auth.update({
+        password: password
+      });
+      if (error) {
+        alert(error.message);
+        console.error(error, error.message);
+        return;
+      }
+    } catch (error) {
+      alert(error);
+      console.log('error setting new password', error);
+    }
+  };
+
   const value = {
     currentUser,
     signUp,
     signIn,
     signInWithMagicLink,
     resetPassword,
+    updatePassword,
     signInWithSocial
   };
 
