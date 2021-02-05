@@ -322,7 +322,7 @@ export default function Signup() {
                 </div>
 
                 {/* Social Buttons */}
-                <div className="flex justify-around space-x-5">
+                <div className="flex flex-col justify-around space-y-5 lg:flex-row lg:space-y-0 lg:space-x-5">
                   <GoogleButton login={() => signInWithSocial('google')} />
                   <FacebookButton login={() => signInWithSocial('facebook')} />
                 </div>

@@ -4,7 +4,7 @@ import Image from 'next/image';
 export const GoogleButton = ({ login }) => {
   return (
     <button
-      className="h-10 pt-1 pl-1 pr-2 bg-blue-500 rounded-md shadow-none outline-none active:bg-blue-700 active:ring-2 hover:bg-blue-600"
+      className="py-2.5 w-full bg-blue-500 rounded-md shadow-none outline-none active:bg-blue-700 active:ring-2 hover:bg-blue-600"
       onClick={login}
     >
       <div className="flex items-center justify-center">
@@ -22,7 +22,7 @@ export const GoogleButton = ({ login }) => {
 export const FacebookButton = ({ login }) => {
   return (
     <button
-      className="h-10 pt-1 pl-1 pr-2 bg-blue-500 rounded-md shadow-none outline-none active:bg-blue-700 active:ring-2 hover:bg-blue-600"
+      className="py-2.5 w-full bg-blue-500 rounded-md shadow-none outline-none active:bg-blue-700 active:ring-2 hover:bg-blue-600"
       onClick={login}
     >
       <div className="flex items-center justify-center">
