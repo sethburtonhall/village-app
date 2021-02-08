@@ -88,6 +88,8 @@ export default function CreateEvent() {
           <form onSubmit={handleSubmit(handleNewEvent)}>
             <div className="flex flex-col space-y-6">
               <p className="text-3xl">{getText('EVENT', 'NEW_EVENT')}</p>
+
+              {/* Title */}
               <div className="flex flex-col">
                 <label htmlFor="title" className="pb-1 font-serif">
                   {getText('EVENT', 'TITLE')}
@@ -95,8 +97,24 @@ export default function CreateEvent() {
                 <input type="text" name="title" ref={register} />
                 <p className="text-red-500">{errors.title && errors.title.message}</p>
               </div>
-              <textarea type="text" name="description" ref={register} />
-              <input type="text" name="location" ref={register} />
+
+              {/* Description */}
+              <div className="flex flex-col">
+                <label htmlFor="description" className="pb-1 font-serif">
+                  {getText('EVENT', 'DESCRIPTION')}
+                </label>
+                <textarea type="text" name="description" ref={register} />
+                <p className="text-red-500">{errors.description && errors.description.message}</p>
+              </div>
+
+              {/* Location */}
+              <div className="flex flex-col">
+                <label htmlFor="location" className="pb-1 font-serif">
+                  {getText('EVENT', 'LOCATION')}
+                </label>
+                <input type="text" name="location" ref={register} />
+                <p className="text-red-500">{errors.location && errors.location.message}</p>
+              </div>
               <DatePicker />
               {/* <input type="date" name="startDate" ref={register} />
         <input type="date" name="endDate" ref={register} /> */}

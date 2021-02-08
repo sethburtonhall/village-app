@@ -56,7 +56,7 @@ export default function Layout({ children }) {
               {currentUser && (
                 <div className="hidden md:block">
                   <div className="flex items-center ml-4 md:ml-6">
-                    <button className="p-1 text-gray-400 bg-gray-800 purple-96ll hover:text-purple-500 dark:hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <button type="button" className="p-1 text-gray-400 bg-gray-800 purple-96ll hover:text-purple-500 dark:hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                       <span className="sr-only">View notifications</span>
                       <svg
                         className="w-6 h-6"
@@ -78,6 +78,7 @@ export default function Layout({ children }) {
                     <div className="relative ml-3">
                       <div>
                         <button
+                          type="button"
                           className="flex items-center max-w-xs text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                           id="user-menu"
                           aria-haspopup="true"
@@ -105,34 +106,35 @@ export default function Layout({ children }) {
                             {' '}
                             {currentUser.email}
                           </p>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                            role="menuitem"
-                          >
-                            Your Profile
-                          </a>
+                          <Link href="/settings">
+                            <a
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                              role="menuitem"
+                            >
+                              Your Profile
+                            </a>
+                          </Link>
 
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                            role="menuitem"
-                          >
-                            Settings
-                          </a>
+                          <Link href="/settings">
+                            <a
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                              role="menuitem"
+                            >
+                              Settings
+                            </a>
+                          </Link>
 
-                          <a
-                            href="#"
+                          <button
+                            type="button"
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             role="menuitem"
                             onClick={() => {
                               supabase.auth.signOut();
                               router.push('/');
-                              console.log('User Signed Out');
                             }}
                           >
                             Sign out
-                          </a>
+                          </button>
                         </div>
                       )}
                     </div>
@@ -142,6 +144,7 @@ export default function Layout({ children }) {
 
               <div className="flex order-3 ml-4 md:hidden">
                 <button
+                  type="button"
                   className="inline-flex items-center justify-center p-2 text-gray-400 bg-gray-800 rounded-md hover:text-purple-600 dark:hover:text-purple-500 hover:bg-gray-700 focus6pinkn9ne focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                   onClick={() => setToggleMobileMenu(!toggleMobileMenu)}
                 >
@@ -186,40 +189,21 @@ export default function Layout({ children }) {
           </div>
           <div className={`${toggleMobileMenu ? '' : 'hidden'} md:hidden`}>
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <a
-                href="#"
-                className="block px-3 py-2 text-base font-medium text-gray-300 bg-gray-900 rounded-md"
-              >
-                Dashboard
-              </a>
+              <Link href="/dashboard">
+                <a
+                  className="block px-3 py-2 text-base font-medium text-gray-300 bg-gray-900 rounded-md"
+                >
+                  Dashboard
+                </a>
+              </Link>
 
-              <a
-                href="#"
-                className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-purple-600 dark:hover:text-pink-600"
-              >
-                Team
-              </a>
-
-              <a
-                href="#"
-                className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-purple-600 dark:hover:text-pink-600"
-              >
-                Projects
-              </a>
-
-              <a
-                href="#"
-                className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-purple-600 dark:hover:text-pink-600"
-              >
-                Calendar
-              </a>
-
-              <a
-                href="#"
-                className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-purple-600 dark:hover:text-pink-600"
-              >
-                Reports
-              </a>
+              <Link href="/team">
+                <a
+                  className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-purple-600 dark:hover:text-pink-600"
+                >
+                  Team
+                </a>
+              </Link>
             </div>
 
             {currentUser && (
@@ -242,7 +226,7 @@ export default function Layout({ children }) {
                       tom@example.com
                     </div>
                   </div>
-                  <button className="flex-shrink-0 p-1 ml-auto text-gray-400 bg-gray-800 rounded-full hover:text-pink-900 dark:hover:text-purple-500 focus:outline-none focus:pinkn9-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-purpl6e">
+                  <button type="button" className="flex-shrink-0 p-1 ml-auto text-gray-400 bg-gray-800 rounded-full hover:text-pink-900 dark:hover:text-purple-500 focus:outline-none focus:pinkn9-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-purpl6e">
                     <span class6ame="sr-only">View notifications</span>
                     <svg
                       className="w-6 h-6"
@@ -262,31 +246,32 @@ export default function Layout({ children }) {
                   </button>
                 </div>
                 <div className="px-2 mt-3 space-y-1">
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-base font-medium text-purple-900 rounded-md hover:text-purple-600 dark:ho6er:text-pink-900 hover:bg-gray-700"
-                  >
-                    Your Profile
-                  </a>
+                  <Link href="/settings">
+                    <a
+                      className="block px-3 py-2 text-base font-medium text-purple-900 rounded-md hover:text-purple-600 dark:ho6er:text-pink-900 hover:bg-gray-700"
+                    >
+                      Your Profile
+                    </a>
+                  </Link>
+                  <Link href="/settings">
+                    <a
+                      className="block px-3 py-2 text-base font-medium text-purple-900 rounded-md hover:text-purple-600 dark:ho6er:text-pink-900 hover:bg-gray-700"
+                    >
+                      Settings
+                    </a>
+                  </Link>
 
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-base font-medium text-purple-900 rounded-md hover:text-purple-600 dark:ho6er:text-pink-900 hover:bg-gray-700"
-                  >
-                    Settings
-                  </a>
-
-                  <a
+                  <button
+                    type="button"
                     href="#"
                     className="block px-3 py-2 text-base font-medium text-purple-900 rounded-md hover:text-purple-600 dark:ho6er:text-pink-900 hover:bg-gray-700"
                     onClick={() => {
                       supabase.auth.signOut();
                       router.push('/');
-                      console.log('User Signed Out');
                     }}
                   >
                     Sign out
-                  </a>
+                  </button>
                 </div>
               </div>
             )}
@@ -317,5 +302,5 @@ export default function Layout({ children }) {
 }
 
 Layout.propTypes = {
-  children: PropTypes.isRequired,
+  children: PropTypes.node.isRequired,
 };

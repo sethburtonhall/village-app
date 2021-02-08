@@ -18,12 +18,13 @@ const Meta = ({ title, keywords, description }) => (
 );
 
 Meta.defaultProps = {
+  title: 'Village App',
   keywords: 'sign up forms, community, volunteer',
   description: 'Group signups made easy.',
 };
 
 Meta.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   keywords: PropTypes.string,
   description: PropTypes.string,
 };

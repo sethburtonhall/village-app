@@ -20,7 +20,6 @@ export function AuthProvider({ children }) {
     const user = supabase.auth.user();
     setCurrentUser(user);
     setIsLoading(false);
-    // console.log(user);
   }, []);
 
   supabase.auth.onAuthStateChange((event, session) => {
@@ -113,5 +112,8 @@ export function AuthProvider({ children }) {
 }
 
 AuthProvider.propTypes = {
-  children: PropTypes.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };

@@ -8,7 +8,6 @@ const checkUserAuthentication = (Component) => {
   const Auth = (props) => {
     // const router = useRouter();
     const { currentUser } = useAuth();
-    console.log(currentUser);
     // const { currentUser } = props;
 
     // if (!currentUser) {

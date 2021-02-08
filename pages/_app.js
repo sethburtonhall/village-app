@@ -23,9 +23,14 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
+MyApp.defaultProps = {
+  pageProps: '',
+};
+
 MyApp.propTypes = {
-  Component: PropTypes.node.isRequired,
-  pageProps: PropTypes.isRequired,
+  Component: PropTypes.elementType.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  pageProps: PropTypes.object,
 };
 
 export default MyApp;

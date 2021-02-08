@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
+import getText from '../helpers/Texts';
 
 // TODO: convert to function component and decide on state management
 
@@ -39,8 +40,8 @@ class DatePicker extends React.Component {
     return (
       <div className="RangeExample">
         <p>
-          {!from && !to && 'Please select the first day.'}
-          {from && !to && 'Please select the last day.'}
+          {!from && !to && getText('EVENT', 'SELECT_FIRST_DAY')}
+          {from && !to && getText('EVENT', 'SELECT_LAST_DAY')}
           {from &&
             to &&
             `Selected from ${from.toLocaleDateString()} to
