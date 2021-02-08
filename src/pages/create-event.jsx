@@ -115,7 +115,7 @@ export default function CreateEvent() {
                 <input type="text" name="location" ref={register} />
                 <p className="text-red-500">{errors.location && errors.location.message}</p>
               </div>
-              <DatePicker />
+              {/* <DatePicker /> */}
               {/* <input type="date" name="startDate" ref={register} />
         <input type="date" name="endDate" ref={register} /> */}
               {/* Submit Button */}

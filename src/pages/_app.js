@@ -10,7 +10,7 @@ import Layout from '../components/Layout';
 import { AuthProvider } from '../state/AuthContext';
 import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }) {
+export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider attribute="class">
       <AuthProvider>
@@ -23,14 +23,12 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-MyApp.defaultProps = {
+App.defaultProps = {
   pageProps: '',
 };
 
-MyApp.propTypes = {
+App.propTypes = {
   Component: PropTypes.elementType.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   pageProps: PropTypes.object,
 };
-
-export default MyApp;

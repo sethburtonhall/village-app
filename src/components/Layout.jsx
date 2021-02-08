@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,6 +18,10 @@ export default function Layout({ children }) {
   const [toggleMobileMenu, setToggleMobileMenu] = useState(false);
   const today = new Date();
   const date = today.getFullYear();
+
+  useEffect(() => {
+    setToggleMobileMenu(false);
+  }, []);
 
   return (
     <>
