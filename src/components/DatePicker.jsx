@@ -1,7 +1,10 @@
 import React from 'react';
+
 import Head from 'next/head';
+
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
+
 import getText from '../helpers/Texts';
 
 // TODO: convert to function component and decide on state management

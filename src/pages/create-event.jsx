@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import * as yup from 'yup';
+
+import toast from 'react-hot-toast';
+import { supabase } from '../../supabase';
 
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
-import DatePicker from '../components/DatePicker';
+// import DatePicker from '../components/DatePicker';
 import Meta from '../components/Meta';
-
 import getText from '../helpers/Texts';
 import { useAuth } from '../state/AuthContext';
-import { supabase } from '../supabase';
 
 export default function CreateEvent() {
   const { currentUser } = useAuth();
@@ -82,7 +83,7 @@ export default function CreateEvent() {
 
   return (
     <>
-      <Meta title="| New Event" />
+      <Meta title="New Event" />
       <div className="flex flex-col items-center justify-start">
         <div className="w-full p-10 m-auto bg-white shadow dark:bg-gray-900 rounded-xl md:w-3/5 lg:w-1/2">
           <form onSubmit={handleSubmit(handleNewEvent)}>

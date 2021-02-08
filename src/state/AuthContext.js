@@ -1,10 +1,9 @@
 /* eslint-disable consistent-return */
 import React, { useContext, useState, useEffect } from 'react';
-
 import PropTypes from 'prop-types';
-import toast from 'react-hot-toast';
 
-import { supabase } from '../supabase';
+import toast from 'react-hot-toast';
+import { supabase } from '../../supabase';
 
 const AuthContext = React.createContext();
 

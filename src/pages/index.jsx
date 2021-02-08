@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-
-import Image from 'next/image';
-import Link from 'next/link';
 // import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import RecoverPassword from '../components/RecoverPassword';
-
-// Helpers
 import getText from '../helpers/Texts';
+import RecoverPassword from '../components/RecoverPassword';
 // import { useAuth } from '../state/AuthContext';
 
 export default function Home() {
@@ -66,7 +63,7 @@ export default function Home() {
               </button>
             </Link>
             <div className="dark:text-gray-300">or</div>
-            <Link href="/login">
+            <Link href="/signin">
               <button type="button" className="px-4 text-lg text-white bg-pink-500 outline-none hover:bg-pink-600 active:bg-pink-700 button">
                 {getText('ACCOUNT', 'LOGIN')}
               </button>

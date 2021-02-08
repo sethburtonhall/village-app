@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+import { useRouter } from 'next/router';
 
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import * as yup from 'yup';
+
+import toast from 'react-hot-toast';
 
 import getText from '../helpers/Texts';
 import { useAuth } from '../state/AuthContext';
@@ -86,7 +88,7 @@ const RecoverPassword = ({ token, setRecoveryToken }) => {
               <a
                 className="text-lg"
                 onClick={() => {
-                  router.push('/login');
+                  router.push('/signin');
                 }}
               >
                 {getText('ACCOUNT', 'LOGIN')}

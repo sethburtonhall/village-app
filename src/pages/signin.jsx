@@ -1,20 +1,20 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
-import Meta from '../components/Meta';
+import toast from 'react-hot-toast';
 
-// Custom Components
-import { GoogleButton, FacebookButton } from '../components/SocialButtons';
+import Meta from '../components/Meta';
 import getText from '../helpers/Texts';
 import { useAuth } from '../state/AuthContext';
+import { GoogleButton, FacebookButton } from '../components/SocialButtons';
 
 export default function Login() {
   const router = useRouter();
@@ -132,7 +132,7 @@ export default function Login() {
 
   return (
     <>
-      <Meta title="| Login" />
+      <Meta title="Sign In" />
       <div className="flex flex-col items-center justify-start">
         <div className="w-full p-10 m-auto bg-white shadow pt-7 dark:bg-gray-900 rounded-xl md:w-3/5 lg:w-1/2">
           {passwordResetSuccess ? (

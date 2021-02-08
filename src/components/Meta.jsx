@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Head from 'next/head';
-import PropTypes from 'prop-types';
 
 const Meta = ({ title, keywords, description }) => (
   <Head>
@@ -11,7 +11,8 @@ const Meta = ({ title, keywords, description }) => (
     <meta charSet="utf-8" />
     <link rel="icon" href="/favicon.ico" />
     <title>
-      Village
+      Village |
+      {' '}
       {title}
     </title>
   </Head>

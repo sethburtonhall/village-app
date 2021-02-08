@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 
+import Link from 'next/link';
+
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
-import Meta from '../components/Meta';
+import toast from 'react-hot-toast';
 
-// Custom Components
-import { GoogleButton, FacebookButton } from '../components/SocialButtons';
+import Meta from '../components/Meta';
 import getText from '../helpers/Texts';
 import { useAuth } from '../state/AuthContext';
+import { GoogleButton, FacebookButton } from '../components/SocialButtons';
 
 export default function Signup() {
   const { signUp, signInWithSocial } = useAuth();
@@ -92,7 +92,7 @@ export default function Signup() {
 
   return (
     <>
-      <Meta title="| Signup" />
+      <Meta title="Sign Up" />
       <div className="flex flex-col items-center justify-start">
         <div className="w-full p-10 m-auto bg-white shadow dark:bg-gray-900 rounded-xl md:w-3/5 lg:w-1/2">
           {signUpSuccess ? (
@@ -302,7 +302,7 @@ export default function Signup() {
                 </button>
 
                 <div className="flex justify-center">
-                  <Link href="/login">
+                  <Link href="/signin">
                     <a>{getText('ACCOUNT', 'ALREADY_HAVE_ACCOUNT')}</a>
                   </Link>
                 </div>

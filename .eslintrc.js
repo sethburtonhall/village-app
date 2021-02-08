@@ -14,20 +14,20 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
-    'import/order': ['error', {
-      alphabetize: {
-        caseInsensitive: true,
-        order: 'asc',
-      },
-      groups: ['builtin', 'external', 'internal'],
-      'newlines-between': 'always-and-inside-groups',
-      pathGroups: [{
-        group: 'external',
-        pattern: 'react',
-        position: 'before',
-      }],
-      pathGroupsExcludedImportTypes: ['react'],
-    }],
+    // 'import/order': ['error', {
+    //   alphabetize: {
+    //     caseInsensitive: true,
+    //     order: 'asc',
+    //   },
+    //   groups: ['builtin', 'external', 'internal'],
+    //   'newlines-between': 'always-and-inside-groups',
+    //   pathGroups: [{
+    //     group: 'external',
+    //     pattern: 'react',
+    //     position: 'before',
+    //   }],
+    //   pathGroupsExcludedImportTypes: ['react'],
+    // }],
     'jsx-a11y/anchor-is-valid': ['error', {
       aspects: ['invalidHref', 'preferButton'],
       components: ['Link'],

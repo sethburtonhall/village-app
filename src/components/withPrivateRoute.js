@@ -12,7 +12,7 @@ const checkUserAuthentication = (Component) => {
 
     // if (!currentUser) {
 
-    //   router.push('/login');
+    //   router.push('/signin');
     // }
     return <Component {...props} />;
   };

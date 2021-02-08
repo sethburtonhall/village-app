@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 
-import { useAuth } from '../state/AuthContext';
-import { supabase } from '../supabase';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { supabase } from '../../supabase';
 
 import Meta from './Meta';
 import ThemeChanger from './ThemeChanger';
+import { useAuth } from '../state/AuthContext';
 
 export default function Layout({ children }) {
   const { currentUser } = useAuth();
@@ -25,7 +25,7 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <Meta />
+      <Meta title="Welcome" />
       <div className="flex flex-col min-h-screen">
         <nav className="bg-gray-200 shadow dark:bg-gray-900">
           <div className="px-4 mx-auto max-w-7xl lg:px-8">

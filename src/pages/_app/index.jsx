@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-
-import { ThemeProvider } from 'next-themes';
 import PropTypes from 'prop-types';
+import { ThemeProvider } from 'next-themes';
 
 import { Toaster } from 'react-hot-toast';
 
-import Layout from '../components/Layout';
-import { AuthProvider } from '../state/AuthContext';
-import '../styles/globals.css';
+import Layout from '../../components/Layout';
+import { AuthProvider } from '../../state/AuthContext';
+
+import './globals.css';
 
 export default function App({ Component, pageProps }) {
   return (
