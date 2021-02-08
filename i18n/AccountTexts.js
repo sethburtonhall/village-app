@@ -23,8 +23,7 @@ const AccountTexts = {
     PASSWORD_MISMATCH: 'Passwords must match',
     PASSWORD_RECOVERY: 'Recover Password',
     PASSWORD_RESET: 'Send password reset instructions',
-    PASSWORD_RESET_EMAIL:
-      'Please check your inbox for your password reset link.',
+    PASSWORD_RESET_EMAIL: 'Check your inbox for your password reset link.',
     PASSWORD_RESET_SUCCESS: 'Your password has been reset.',
     PASSWORD_VERIFY: 'Password Verify',
     REQUIRED_EMAIL: 'Email is a required field',
@@ -36,6 +35,7 @@ const AccountTexts = {
     SIGN_IN: 'Sign in',
     SIGN_IN_WITH: 'Sign in with',
     SIGN_IN_WITH_PASSWORD: 'Sign in with password',
+    SIGN_IN_SUCCESS: 'Check your inbox to confirm your account.',
     SUCCESS: 'Success'
   }
 };
