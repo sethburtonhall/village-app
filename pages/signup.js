@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
-import { useAuth } from '../state/AuthContext';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import Meta from '../components/Meta';
 
-// React Hook Form
-import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
-// Helpers
-import { getText } from '../helpers/Texts';
+import Meta from '../components/Meta';
 
 // Custom Components
 import { GoogleButton, FacebookButton } from '../components/SocialButtons';
+import getText from '../helpers/Texts';
+import { useAuth } from '../state/AuthContext';
 
 export default function Signup() {
-  const router = useRouter();
   const { signUp, signInWithSocial } = useAuth();
   const [passwordShow, setPasswordShow] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
@@ -36,25 +33,25 @@ export default function Signup() {
       .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`)
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-        'Must Contain At Least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
+        'Must Contain At Least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
       ),
     passwordVerify: yup
       .string()
       .oneOf([yup.ref('password'), null], "Passwords don't match")
-      .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`)
+      .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`),
   });
 
-  // React Hook Forms for refs, validation, errors, etc...
-  // https://react-hook-form.com/get-started/
-  const { register, handleSubmit, control, errors } = useForm({
+  const {
+    register, handleSubmit, control, errors,
+  } = useForm({
     resolver: yupResolver(Schema),
     mode: 'onChange',
     defaultValues: {
       firstName: '',
       lastName: '',
       email: '',
-      password: ''
-    }
+      password: '',
+    },
   });
 
   const handleTogglePassword = (event, passwordTarget) => {
@@ -73,23 +70,22 @@ export default function Signup() {
 
   const handleSignUp = async (data) => {
     setIsLoading(true);
-
     try {
       const response = await signUp(
         data.firstName,
         data.lastName,
         data.email,
-        data.password
+        data.password,
       );
-      if (response) {
+      const { error } = await response;
+      if (!error) {
         setIsLoading(false);
         setSignUpSuccess(!signUpSuccess);
+      } else {
+        toast.error(getText('ACCOUNT', 'SIGN_IN_ERROR'));
       }
-
-      console.log('Form data:', data);
-      console.log('sign up successful');
     } catch (error) {
-      console.log('error signing up', error);
+      toast.error(getText('ACCOUNT', 'SIGN_IN_ERROR'));
     }
     setIsLoading(false);
   };
@@ -102,11 +98,13 @@ export default function Signup() {
           {signUpSuccess ? (
             <div className="flex flex-col items-center space-y-12">
               <h1 className="text-6xl text-green-700">
-                😀 {getText('ACCOUNT', 'SUCCESS')}
+                😀
+                {' '}
+                {getText('ACCOUNT', 'SUCCESS')}
               </h1>
 
               <div className="font-serif text-lg">
-                {getText('ACCOUNT', 'PASSWORD_RESET_EMAIL')}
+                {getText('ACCOUNT', 'SIGN_IN_SUCCESS')}
               </div>
 
               {/* <a
@@ -139,7 +137,6 @@ export default function Signup() {
                       name="firstName"
                       id="firstName"
                       ref={register}
-                      variant="outline"
                       autoFocus
                       autoComplete="firstName"
                     />
@@ -158,7 +155,6 @@ export default function Signup() {
                       name="lastName"
                       id="lastName"
                       ref={register}
-                      variant="outline"
                       autoComplete="lastName"
                     />
                     <p className="text-red-500">
@@ -177,7 +173,6 @@ export default function Signup() {
                     name="email"
                     id="email"
                     ref={register}
-                    variant="outline"
                     autoComplete="email"
                     aria-describedby="email-helptext"
                   />
@@ -193,19 +188,19 @@ export default function Signup() {
                   </label>
                   <div className="relative flex">
                     <input
-                      type="password"
+                      type={passwordShow ? 'text' : 'password'}
                       name="password"
                       id="password"
                       ref={register}
                       autoComplete="new-password"
-                      variant="outline"
-                      type={passwordShow ? 'text' : 'password'}
                     />
                     <div
                       className="absolute right-2 top-2"
-                      onClick={(event) =>
-                        handleTogglePassword(event, 'password')
-                      }
+                      onClick={(event) => handleTogglePassword(event, 'password')}
+                      onKeyPress={(event) => handleTogglePassword(event, 'password')}
+                      role="checkbox"
+                      tabIndex="0"
+                      aria-checked="false"
                     >
                       {passwordShow ? (
                         <svg
@@ -262,13 +257,11 @@ export default function Signup() {
                   </label>
                   <div className="relative flex">
                     <input
-                      type="passwordVerify"
+                      type={passwordShow ? 'text' : 'password'}
                       name="passwordVerify"
                       id="passwordVerify"
                       ref={register}
                       autoComplete="new-password"
-                      variant="outline"
-                      type={passwordShow ? 'text' : 'password'}
                     />
                   </div>
                   <p className="text-red-500">
@@ -276,7 +269,7 @@ export default function Signup() {
                   </p>
                 </div>
                 {/* Flex spacer div */}
-                <div></div>
+                <div />
 
                 {/* Submit Button */}
                 <button
@@ -297,12 +290,12 @@ export default function Signup() {
                         r="10"
                         stroke="currentColor"
                         strokeWidth="4"
-                      ></circle>
+                      />
                       <path
                         className="opacity-75"
                         fill="currentColor"
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
+                      />
                     </svg>
                   )}
                   {getText('ACCOUNT', 'SIGN_UP')}
@@ -331,7 +324,7 @@ export default function Signup() {
           )}
         </div>
       </div>
-      {/* <DevTool control={control} /> */}
+      <DevTool control={control} />
     </>
   );
 }

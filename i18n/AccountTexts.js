@@ -17,6 +17,9 @@ const AccountTexts = {
     LOGIN: 'Login',
     LOGOUT: 'Logout',
     MAGIC_LINK: 'Sign in with magic link',
+    MAGIC_LINK_SUCCESS: 'Check your email for magic link.',
+    MAGIC_LINK_ERROR:
+      'There was an error sending your magic link. Please try again in 60 seconds.',
     NEED_AN_ACCOUNT: 'Need an account?',
     PASSWORD: 'Password',
     PASSWORD_CONFIRM: 'password confirmation',
@@ -25,6 +28,8 @@ const AccountTexts = {
     PASSWORD_RESET: 'Send password reset instructions',
     PASSWORD_RESET_EMAIL: 'Check your inbox for your password reset link.',
     PASSWORD_RESET_SUCCESS: 'Your password has been reset.',
+    PASSWORD_RESET_ERROR:
+      'There was an error resetting your password. Please try again.',
     PASSWORD_VERIFY: 'Password Verify',
     REQUIRED_EMAIL: 'Email is a required field',
     REQUIRED_FIELD: 'This field is required',
@@ -32,12 +37,15 @@ const AccountTexts = {
     SEND_MAGIC_LINK: 'Send magic link',
     SIGN_UP: 'Sign up',
     SIGN_UP_WITH: 'Sign up with',
+    SIGN_UP_ERROR: 'There was an error signing up.',
     SIGN_IN: 'Sign in',
     SIGN_IN_WITH: 'Sign in with',
     SIGN_IN_WITH_PASSWORD: 'Sign in with password',
     SIGN_IN_SUCCESS: 'Check your inbox to confirm your account.',
-    SUCCESS: 'Success'
-  }
+    SIGN_IN_ERROR:
+      'There was an error signing in. Please double check your credentials and check email to confirm your account.',
+    SUCCESS: 'Success',
+  },
 };
 
 export default AccountTexts;

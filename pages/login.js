@@ -1,20 +1,20 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
-import { useAuth } from '../state/AuthContext';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import Meta from '../components/Meta';
 
-// React Hook Form
-import { useForm } from 'react-hook-form';
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
-// Helpers
-import { getText } from '../helpers/Texts';
+import Meta from '../components/Meta';
 
 // Custom Components
 import { GoogleButton, FacebookButton } from '../components/SocialButtons';
+import getText from '../helpers/Texts';
+import { useAuth } from '../state/AuthContext';
 
 export default function Login() {
   const router = useRouter();
@@ -22,49 +22,47 @@ export default function Login() {
     signIn,
     signInWithMagicLink,
     signInWithSocial,
-    resetPassword
+    resetPassword,
   } = useAuth();
   const [passwordShow, setPasswordShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [magicLink, setMagicLink] = useState(false);
   const [passwordReset, setPasswordReset] = useState(false);
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
-  console.log('Magic Link', magicLink);
-  console.log('Password Reset', passwordReset);
+  const [magicLinkSuccess, setMagicLinkSuccess] = useState(false);
 
   // Password & Magic Link in validation schema via Yup
 
-  const Schema =
-    !magicLink && !passwordReset
-      ? yup.object().shape({
-          email: yup
-            .string()
-            .email(`${getText('ACCOUNT', 'INVALID_EMAIL')}`)
-            .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`),
-          password: yup
-            .string()
-            .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`)
-            .matches(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-              'Must Contain At Least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
-            )
-        })
-      : yup.object().shape({
-          email: yup
-            .string()
-            .email(`${getText('ACCOUNT', 'INVALID_EMAIL')}`)
-            .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`)
-        });
+  const Schema = !magicLink && !passwordReset
+    ? yup.object().shape({
+      email: yup
+        .string()
+        .email(`${getText('ACCOUNT', 'INVALID_EMAIL')}`)
+        .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`),
+      password: yup
+        .string()
+        .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`)
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+          'Must Contain At Least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
+        ),
+    })
+    : yup.object().shape({
+      email: yup
+        .string()
+        .email(`${getText('ACCOUNT', 'INVALID_EMAIL')}`)
+        .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`),
+    });
 
-  // React Hook Forms for refs, validation, errors, etc...
-  // https://react-hook-form.com/get-started/
-  const { register, handleSubmit, control, errors } = useForm({
+  const {
+    register, handleSubmit, control, errors,
+  } = useForm({
     resolver: yupResolver(Schema),
     mode: 'onChange',
     defaultValues: {
       email: '',
-      password: ''
-    }
+      password: '',
+    },
   });
 
   const handleTogglePassword = (event, passwordTarget) => {
@@ -83,44 +81,51 @@ export default function Login() {
 
   const handleLogin = async (data) => {
     setIsLoading(true);
-
     try {
-      await signIn(data.email, data.password);
-      setIsLoading(false);
-      router.push('/dashboard');
-      console.log('Form data:', data);
-      console.log('Log in successful');
+      const response = await signIn(data.email, data.password);
+      const { error } = response;
+      if (!error) {
+        setIsLoading(false);
+        router.push('/dashboard');
+      } else {
+        toast.error(getText('ACCOUNT', 'SIGN_IN_ERROR'));
+      }
     } catch (error) {
-      console.log('error logging in', error);
+      toast.error(getText('ACCOUNT', 'SIGN_IN_ERROR'));
     }
     setIsLoading(false);
   };
 
   const handleMagicLink = async (data) => {
     setIsLoading(true);
-
     try {
-      await signInWithMagicLink(data.email);
-      setIsLoading(false);
-      console.log('Form data:', data);
-      console.log('Check email for magic link.');
+      const response = await signInWithMagicLink(data.email);
+      const { error } = response;
+      if (!error) {
+        setIsLoading(false);
+        setMagicLinkSuccess(true);
+      } else {
+        toast.error(getText('ACCOUNT', 'MAGIC_LINK_ERROR'));
+      }
     } catch (error) {
-      console.log('error logging in', error);
+      toast.error(getText('ACCOUNT', 'MAGIC_LINK_ERROR'));
     }
     setIsLoading(false);
   };
 
   const handlePasswordReset = async (data) => {
     setIsLoading(true);
-
     try {
-      await resetPassword(data.email);
-      setIsLoading(false);
-      setPasswordResetSuccess(true);
-      console.log('Form data:', data);
-      console.log('Check email for password reset instructions.');
+      const response = await resetPassword(data.email);
+      const { error } = response;
+      if (!error) {
+        setIsLoading(false);
+        setPasswordResetSuccess(true);
+      } else {
+        toast.error(getText('ACCOUNT', 'PASSWORD_RESET_ERROR'));
+      }
     } catch (error) {
-      console.log('error logging in', error);
+      toast.error(getText('ACCOUNT', 'PASSWORD_RESET_ERROR'));
     }
     setIsLoading(false);
   };
@@ -133,7 +138,9 @@ export default function Login() {
           {passwordResetSuccess ? (
             <div className="flex flex-col items-center space-y-12">
               <h1 className="text-6xl text-green-700">
-                😀 {getText('ACCOUNT', 'SUCCESS')}
+                😀
+                {' '}
+                {getText('ACCOUNT', 'SUCCESS')}
               </h1>
 
               <div className="font-serif text-lg">
@@ -150,6 +157,18 @@ export default function Login() {
                 {getText('ACCOUNT', 'BACK_TO_SIGN_IN')}
               </a> */}
             </div>
+          ) : magicLinkSuccess ? (
+            <div className="flex flex-col items-center space-y-12">
+              <h1 className="text-6xl text-green-700">
+                😀
+                {' '}
+                {getText('ACCOUNT', 'SUCCESS')}
+              </h1>
+
+              <div className="font-serif text-lg">
+                {getText('ACCOUNT', 'MAGIC_LINK_SUCCESS')}
+              </div>
+            </div>
           ) : (
             <form
               autoComplete="on"
@@ -157,8 +176,8 @@ export default function Login() {
                 !magicLink && !passwordReset
                   ? handleSubmit(handleLogin)
                   : !magicLink && passwordReset
-                  ? handleSubmit(handlePasswordReset)
-                  : handleSubmit(handleMagicLink)
+                    ? handleSubmit(handlePasswordReset)
+                    : handleSubmit(handleMagicLink)
               }
             >
               <div className="flex flex-col space-y-6">
@@ -174,7 +193,6 @@ export default function Login() {
                     name="email"
                     id="email"
                     ref={register}
-                    variant="outline"
                     autoComplete="email"
                     aria-describedby="email-helptext"
                   />
@@ -189,21 +207,21 @@ export default function Login() {
                     <label htmlFor="password" className="pb-1 font-serif">
                       {getText('ACCOUNT', 'PASSWORD')}
                     </label>
-                    <div className="relative flex">
+                    <div className="relative flex items-center">
                       <input
-                        type="password"
+                        type={passwordShow ? 'text' : 'password'}
                         name="password"
                         id="password"
                         ref={register}
                         autoComplete="new-password"
-                        variant="outline"
-                        type={passwordShow ? 'text' : 'password'}
                       />
                       <div
-                        className="absolute right-2 top-2"
-                        onClick={(event) =>
-                          handleTogglePassword(event, 'password')
-                        }
+                        className="absolute right-2 top-3.5"
+                        onClick={(event) => handleTogglePassword(event, 'password')}
+                        onKeyPress={(event) => handleTogglePassword(event, 'password')}
+                        role="checkbox"
+                        tabIndex="0"
+                        aria-checked="false"
                       >
                         {passwordShow ? (
                           <svg
@@ -261,6 +279,9 @@ export default function Login() {
                     <div
                       className="cursor-pointer"
                       onClick={() => setPasswordReset(!passwordReset)}
+                      onKeyPress={() => setPasswordReset(!passwordReset)}
+                      role="button"
+                      tabIndex="0"
                     >
                       <a>{getText('ACCOUNT', 'FORGOT_PASSWORD')}</a>
                     </div>
@@ -288,19 +309,19 @@ export default function Login() {
                         r="10"
                         stroke="currentColor"
                         strokeWidth="4"
-                      ></circle>
+                      />
                       <path
                         className="opacity-75"
                         fill="currentColor"
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
+                      />
                     </svg>
                   )}
                   {!magicLink && !passwordReset
                     ? getText('ACCOUNT', 'SIGN_IN')
                     : !magicLink && passwordReset
-                    ? getText('ACCOUNT', 'PASSWORD_RESET')
-                    : getText('ACCOUNT', 'SEND_MAGIC_LINK')}
+                      ? getText('ACCOUNT', 'PASSWORD_RESET')
+                      : getText('ACCOUNT', 'SEND_MAGIC_LINK')}
                 </button>
 
                 <div className="flex flex-col items-center justify-center">
@@ -308,6 +329,9 @@ export default function Login() {
                     <div
                       className="cursor-pointer"
                       onClick={() => setMagicLink(!magicLink)}
+                      onKeyPress={() => setMagicLink(!magicLink)}
+                      role="button"
+                      tabIndex="0"
                     >
                       <a>{getText('ACCOUNT', 'MAGIC_LINK')}</a>
                     </div>
@@ -319,6 +343,9 @@ export default function Login() {
                     <div
                       className="cursor-pointer"
                       onClick={() => setMagicLink(!magicLink)}
+                      onKeyPress={() => setMagicLink(!magicLink)}
+                      role="button"
+                      tabIndex="0"
                     >
                       <a>{getText('ACCOUNT', 'SIGN_IN_WITH_PASSWORD')}</a>
                     </div>
@@ -336,6 +363,9 @@ export default function Login() {
                     <div
                       className="cursor-pointer"
                       onClick={() => setPasswordReset(!passwordReset)}
+                      onKeyPress={() => setPasswordReset(!passwordReset)}
+                      role="button"
+                      tabIndex="0"
                     >
                       <a>{getText('ACCOUNT', 'BACK_TO_SIGN_IN')}</a>
                     </div>
@@ -366,7 +396,7 @@ export default function Login() {
           )}
         </div>
       </div>
-      {/* <DevTool control={control} /> */}
+      <DevTool control={control} />
     </>
   );
 }

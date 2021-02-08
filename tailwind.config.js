@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const colors = require('tailwindcss/colors');
 
 module.exports = {
@@ -6,21 +7,21 @@ module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   future: {
     removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true
+    purgeLayersByDefault: true,
   },
   theme: {
     fontFamily: {
       sans: ['Dosis', 'sans-serif'],
-      serif: ['Roboto Slab', 'serif']
+      serif: ['Roboto Slab', 'serif'],
     },
     container: {
       center: true,
       screens: {
         sm: '100%',
         md: '100%',
-        lg: '1024px'
+        lg: '1024px',
         // xl: '1280px',
-      }
+      },
     },
     colors: {
       transparent: 'transparent',
@@ -35,24 +36,24 @@ module.exports = {
       purple: colors.purple,
       orange: colors.orange,
       green: colors.green,
-      red: colors.red
+      red: colors.red,
     },
     // fill: theme => theme(colors),
     extend: {
       screens: {
-        '3xl': '1600px'
-      }
+        '3xl': '1600px',
+      },
       // backgroundImage: (theme) => ({
       //   code: "url('/bg4.jpg')",
       //   film: "url('/bg6.jpg')",
       // }),
-    }
+    },
   },
   variants: {
     // The 'active' variant will be generated in addition to the defaults
     extend: {
-      backgroundColor: ['active']
-    }
+      backgroundColor: ['active'],
+    },
   },
-  plugins: [require('@tailwindcss/forms')]
+  plugins: [require('@tailwindcss/forms')],
 };

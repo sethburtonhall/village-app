@@ -1,4 +1,9 @@
+/* eslint-disable consistent-return */
 import React, { useContext, useState, useEffect } from 'react';
+
+import PropTypes from 'prop-types';
+import toast from 'react-hot-toast';
+
 import { supabase } from '../supabase';
 
 const AuthContext = React.createContext();
@@ -9,7 +14,6 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
-  const [session, setSession] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -20,7 +24,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   supabase.auth.onAuthStateChange((event, session) => {
-    console.log(event, session);
     if (event === 'SIGNED_IN') {
       setCurrentUser(session.user);
     } else setCurrentUser(null);
@@ -28,107 +31,67 @@ export function AuthProvider({ children }) {
 
   const signUp = async (firstName, lastName, email, password) => {
     try {
-      const { error } = await supabase.auth.signUp({
-        email: email,
-        password: password
+      const response = await supabase.auth.signUp({
+        email,
+        password,
       });
-      await supabase
-        .from('users')
-        .insert([{ first_name: firstName, last_name: lastName }]);
-
-      // if (error) {
-      //   alert('users name insert' + ' ' + error.message);
-      //   console.error(error, error.message);
-      //   return;
-      // }
-      if (error) {
-        alert('auth.signUp' + ' ' + error.message);
-        console.error(error, error.message);
-        return;
-      }
+      return response;
     } catch (error) {
-      alert('catch error' + error);
-      console.log('error signing up', error);
+      toast.error('error signing up', error);
     }
   };
 
   const signIn = async (email, password) => {
     try {
-      const { error } = await supabase.auth.signIn({
-        email: email,
-        password: password
+      const response = await supabase.auth.signIn({
+        email,
+        password,
       });
-      if (error) {
-        alert(error.message);
-        console.error(error, error.message);
-        return;
-      }
+      return response;
     } catch (error) {
-      alert(error);
-      console.log('error signing up', error);
+      toast.error('error signing in', error);
     }
   };
 
   const signInWithMagicLink = async (email) => {
     try {
-      const { error } = await supabase.auth.signIn({
-        email: email
+      const response = await supabase.auth.signIn({
+        email,
       });
-      if (error) {
-        alert(error.message);
-        console.error(error, error.message);
-        return;
-      }
+      return response;
     } catch (error) {
-      alert(error);
-      console.log('error signing up', error);
+      toast.error('error signing in', error);
     }
   };
 
   const signInWithSocial = async (provider) => {
     try {
-      const { user, error } = await supabase.auth.signIn({
-        provider: provider
+      const response = await supabase.auth.signIn({
+        provider,
       });
-      if (error) {
-        alert('auth.signUp' + error.message);
-        console.error(error, error.message);
-        return;
-      }
-      console.log(user);
+      return response;
     } catch (error) {
-      console.log('error', error);
-      alert(error.error_description || error);
+      toast.error('error signing in with social', error);
     }
   };
 
   const resetPassword = async (email) => {
     try {
-      let { error } = await supabase.auth.api.resetPasswordForEmail(email);
-      if (error) {
-        alert(error.message);
-        console.error(error, error.message);
-        return;
-      }
+      const response = await supabase.auth.api.resetPasswordForEmail(email);
+      return response;
     } catch (error) {
-      alert(error);
-      console.log('error signing up', error);
+      toast.error('error reseting password', error);
     }
   };
 
-  const updatePassword = async (password) => {
+  const updatePassword = async (accessToken, newPassword) => {
     try {
-      const { error } = await supabase.auth.update({
-        password: password
+      const response = await supabase.auth.api.updateUser(accessToken, {
+        password: newPassword,
       });
-      if (error) {
-        alert(error.message);
-        console.error(error, error.message);
-        return;
-      }
+      return response;
     } catch (error) {
-      alert(error);
-      console.log('error setting new password', error);
+      toast.error('error setting new password', error);
     }
   };
 
@@ -139,7 +102,7 @@ export function AuthProvider({ children }) {
     signInWithMagicLink,
     resetPassword,
     updatePassword,
-    signInWithSocial
+    signInWithSocial,
   };
 
   return (
@@ -148,3 +111,7 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
+AuthProvider.propTypes = {
+  children: PropTypes.isRequired,
+};

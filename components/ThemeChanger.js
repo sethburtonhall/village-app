@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useTheme } from 'next-themes';
 
 export default function ThemeChanger() {

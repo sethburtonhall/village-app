@@ -1,24 +1,28 @@
-import { useEffect, useState, useRef } from 'react';
-import { supabase } from '../supabase';
-import RecoverPassword from '../components/RecoverPassword';
-import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+
 import Image from 'next/image';
+import Link from 'next/link';
+// import { useRouter } from 'next/router';
+
+import RecoverPassword from '../components/RecoverPassword';
 
 // Helpers
-import { getText } from '../helpers/Texts';
+import getText from '../helpers/Texts';
+// import { useAuth } from '../state/AuthContext';
 
 export default function Home() {
+  // const { currentUser } = useAuth();
+  // const router = useRouter();
   const [recoveryToken, setRecoveryToken] = useState(null);
-  const newTaskTextRef = useRef();
 
   useEffect(() => {
     /* Recovery url is of the form
      * <SITE_URL>#access_token=x&refresh_token=y&expires_in=z&token_type=bearer&type=recovery
      * Read more on https://supabase.io/docs/client/reset-password-email#notes
      */
-    let url = window.location.hash;
-    let query = url.substr(1);
-    let result = {};
+    const url = window.location.hash;
+    const query = url.substr(1);
+    const result = {};
 
     query.split('&').forEach((part) => {
       const item = part.split('=');
@@ -29,6 +33,10 @@ export default function Home() {
       setRecoveryToken(result.access_token);
     }
   }, []);
+
+  // if (currentUser) {
+  //   router.push('/dashboard');
+  // }
 
   return recoveryToken ? (
     <RecoverPassword
@@ -53,13 +61,13 @@ export default function Home() {
           </p>
           <div className="flex items-center justify-center space-x-3 md:justify-start">
             <Link href="/signup">
-              <button className="px-4 text-lg text-white bg-purple-500 outline-none hover:bg-purple-600 active:bg-purple-700 button">
+              <button type="button" className="px-4 text-lg text-white bg-purple-500 outline-none hover:bg-purple-600 active:bg-purple-700 button">
                 {getText('ACCOUNT', 'GET_STARTED')}
               </button>
             </Link>
             <div className="dark:text-gray-300">or</div>
             <Link href="/login">
-              <button className="px-4 text-lg text-white bg-pink-500 outline-none hover:bg-pink-600 active:bg-pink-700 button">
+              <button type="button" className="px-4 text-lg text-white bg-pink-500 outline-none hover:bg-pink-600 active:bg-pink-700 button">
                 {getText('ACCOUNT', 'LOGIN')}
               </button>
             </Link>
@@ -170,34 +178,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* CTA */}
-      {/* <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-        <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-          <span className="block">Ready to dive in?</span>
-          <span className="block text-blue-500">
-            Start your free trial today.
-          </span>
-        </h2>
-        <div className="flex mt-8 lg:mt-0 lg:flex-shrink-0">
-          <div className="inline-flex rounded-md shadow">
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-            >
-              Get started
-            </a>
-          </div>
-          <div className="inline-flex ml-3 rounded-md shadow">
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-blue-600 bg-white border border-transparent rounded-md hover:bg-blue-50"
-            >
-              Learn more
-            </a>
-          </div>
-        </div>
-      </div> */}
     </>
   );
 }

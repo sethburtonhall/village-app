@@ -1,16 +1,20 @@
+import React from 'react';
+
+// import { useRouter } from 'next/router';
+
 import { useAuth } from '../state/AuthContext';
-import { useRouter } from 'next/router';
 
 const checkUserAuthentication = (Component) => {
   const Auth = (props) => {
-    const router = useRouter();
+    // const router = useRouter();
     const { currentUser } = useAuth();
     console.log(currentUser);
     // const { currentUser } = props;
 
-    if (!currentUser) {
-      router.push('/login');
-    }
+    // if (!currentUser) {
+
+    //   router.push('/login');
+    // }
     return <Component {...props} />;
   };
 

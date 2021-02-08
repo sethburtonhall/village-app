@@ -2,11 +2,12 @@ import Cookies from 'universal-cookie';
 
 import AccountTexts from '../i18n/AccountTexts';
 import CoreTexts from '../i18n/CoreTexts';
+import EventTexts from '../i18n/EventTexts';
 
-export function getText(type, text) {
+const getText = (type, text) => {
   const cookies = new Cookies();
 
-  let locale = cookies.get(CoreTexts['en-us']['LOCALE']);
+  let locale = cookies.get(CoreTexts['en-us'].LOCALE);
 
   if (locale === undefined) {
     locale = 'en-us';
@@ -14,7 +15,7 @@ export function getText(type, text) {
 
   const defaultText = 'No text found';
 
-  if (type !== 'ACCOUNT') {
+  if (type !== 'ACCOUNT' && type !== 'EVENT') {
     return defaultText;
   }
 
@@ -22,6 +23,8 @@ export function getText(type, text) {
 
   if (type === 'ACCOUNT') {
     localeText = AccountTexts[locale][text];
+  } else if (type === 'EVENT') {
+    localeText = EventTexts[locale][text];
   }
 
   if (localeText === undefined) {
@@ -29,4 +32,6 @@ export function getText(type, text) {
   }
 
   return localeText;
-}
+};
+
+export default getText;
