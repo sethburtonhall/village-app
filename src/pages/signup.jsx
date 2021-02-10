@@ -21,7 +21,6 @@ export default function Signup() {
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Form validation schema via Yup
   const Schema = yup.object().shape({
     firstName: yup.string().required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`),
     lastName: yup.string().required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`),
@@ -34,7 +33,7 @@ export default function Signup() {
       .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`)
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-        'Must Contain At Least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
+        'Must Contain At Least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'
       ),
     passwordVerify: yup
       .string()
@@ -42,9 +41,7 @@ export default function Signup() {
       .required(`${getText('ACCOUNT', 'REQUIRED_FIELD')}`),
   });
 
-  const {
-    register, handleSubmit, control, errors,
-  } = useForm({
+  const { register, handleSubmit, control, errors } = useForm({
     resolver: yupResolver(Schema),
     mode: 'onChange',
     defaultValues: {
@@ -72,22 +69,19 @@ export default function Signup() {
   const handleSignUp = async (data) => {
     setIsLoading(true);
     try {
-      const response = await signUp(
-        data.email,
-        data.password,
-      );
+      const response = await signUp(data.email, data.password);
       const { error } = response;
       if (!error) {
         setIsLoading(false);
         setSignUpSuccess(!signUpSuccess);
-        await supabase
-          .from('users')
-          .insert([{
+        await supabase.from('users').insert([
+          {
             id: response.data.id,
             email: data.email,
             first_name: data.firstName,
             last_name: data.lastName,
-          }]);
+          },
+        ]);
       } else {
         toast.error(getText('ACCOUNT', 'SIGN_IN_ERROR'));
       }
@@ -105,24 +99,12 @@ export default function Signup() {
           {signUpSuccess ? (
             <div className="flex flex-col items-center space-y-12">
               <h1 className="text-6xl text-green-700">
-                😀
-                {' '}
-                {getText('ACCOUNT', 'SUCCESS')}
+                😀 {getText('ACCOUNT', 'SUCCESS')}
               </h1>
 
               <div className="font-serif text-lg">
                 {getText('ACCOUNT', 'SIGN_IN_SUCCESS')}
               </div>
-
-              {/* <a
-                className="text-lg"
-                onClick={() => {
-                  setPasswordResetSuccess(!passwordResetSuccess);
-                  setPasswordReset(!passwordReset);
-                }}
-              >
-                {getText('ACCOUNT', 'BACK_TO_SIGN_IN')}
-              </a> */}
             </div>
           ) : (
             <form autoComplete="on" onSubmit={handleSubmit(handleSignUp)}>
@@ -203,8 +185,12 @@ export default function Signup() {
                     />
                     <div
                       className="absolute right-2 top-2"
-                      onClick={(event) => handleTogglePassword(event, 'password')}
-                      onKeyPress={(event) => handleTogglePassword(event, 'password')}
+                      onClick={(event) =>
+                        handleTogglePassword(event, 'password')
+                      }
+                      onKeyPress={(event) =>
+                        handleTogglePassword(event, 'password')
+                      }
                       role="checkbox"
                       tabIndex="0"
                       aria-checked="false"
