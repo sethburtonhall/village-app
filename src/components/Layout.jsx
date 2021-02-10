@@ -1,26 +1,42 @@
+/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import Link from 'next/link';
+import Link from '@/ui/link';
 
+import { useAuth } from '@/state/AuthContext';
 import { supabase } from '../../supabase';
 
 import Meta from './Meta';
 import ThemeChanger from './ThemeChanger';
-import { useAuth } from '../state/AuthContext';
 
 export default function Layout({ children }) {
   const { currentUser } = useAuth();
+  const [user, setUser] = useState([]);
   const router = useRouter();
   const [toggleUserMenu, setToggleUserMenu] = useState(false);
   const [toggleMobileMenu, setToggleMobileMenu] = useState(false);
   const today = new Date();
   const date = today.getFullYear();
+  console.log(user);
+
+  console.log(toggleUserMenu);
 
   useEffect(() => {
     setToggleMobileMenu(false);
+  }, []);
+
+  useEffect(() => {
+    async function getUsers() {
+      const response = await supabase
+        .from('users')
+        .select('first_name, last_name')
+        .eq('id', currentUser.id);
+      setUser(response.data);
+    }
+    getUsers();
   }, []);
 
   return (
@@ -32,13 +48,14 @@ export default function Layout({ children }) {
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center flex-grow h-20">
                 <div>
-                  <Link href="/">
-                    <a className="text-4xl text-transparent leading-2 bg-gradient-to-r bg-clip-text from-purple-700 to-pink-700">
-                      Village
-                    </a>
-                  </Link>
+                  <a
+                    href="/"
+                    className="text-4xl leading-none text-transparent bg-gradient-to-r bg-clip-text from-purple-700 to-pink-700"
+                  >
+                    Village
+                  </a>
                 </div>
-                <div className="hidden md:block">
+                {/* <div className="hidden md:block">
                   <div className="flex items-baseline ml-10 space-x-4">
                     <a
                       href="#"
@@ -54,13 +71,16 @@ export default function Layout({ children }) {
                       Team
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               {currentUser && (
                 <div className="hidden md:block">
                   <div className="flex items-center ml-4 md:ml-6">
-                    <button type="button" className="p-1 text-gray-400 bg-gray-800 purple-96ll hover:text-purple-500 dark:hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <button
+                      type="button"
+                      className="p-1 text-gray-400 bg-gray-800 purple-96ll hover:text-purple-500 dark:hover:text-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                    >
                       <span className="sr-only">View notifications</span>
                       <svg
                         className="w-6 h-6"
@@ -100,37 +120,25 @@ export default function Layout({ children }) {
                       </div>
                       {toggleUserMenu && (
                         <div
-                          className="absolute right-0 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5"
+                          className="absolute right-0 z-10 w-48 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg dark:bg-gray-900 ring-1 ring-black ring-opacity-5"
                           role="menu"
                           aria-orientation="vertical"
                           aria-labelledby="user-menu"
                         >
-                          <p>
-                            Welcome
-                            {' '}
-                            {currentUser.email}
+                          <p className="block px-3 py-2 text-base font-medium text-gray-900 dark:text-gray-300">
+                            Welcome {user[0].first_name}
                           </p>
-                          <Link href="/settings">
-                            <a
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                              role="menuitem"
-                            >
-                              Your Profile
-                            </a>
-                          </Link>
-
-                          <Link href="/settings">
-                            <a
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                              role="menuitem"
-                            >
-                              Settings
-                            </a>
+                          <Link
+                            href="/settings"
+                            // onClick={() => setToggleUserMenu(!toggleUserMenu)}
+                            onClick={() => console.log('settings')}
+                          >
+                            Settings
                           </Link>
 
                           <button
                             type="button"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            className="block px-3 py-2 text-base font-medium text-blue-500 no-underline cursor-pointer hover:text-pink-500"
                             role="menuitem"
                             onClick={() => {
                               supabase.auth.signOut();
@@ -192,23 +200,15 @@ export default function Layout({ children }) {
             </div>
           </div>
           <div className={`${toggleMobileMenu ? '' : 'hidden'} md:hidden`}>
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <Link href="/dashboard">
-                <a
-                  className="block px-3 py-2 text-base font-medium text-gray-300 bg-gray-900 rounded-md"
-                >
-                  Dashboard
-                </a>
+            {/* <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <Link href="/dashboard" className="nav-link" role="menuitem">
+                Dashboard
               </Link>
 
-              <Link href="/team">
-                <a
-                  className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-purple-600 dark:hover:text-pink-600"
-                >
-                  Team
-                </a>
+              <Link href="/team" className="nav-link" role="menuitem">
+                Team
               </Link>
-            </div>
+            </div> */}
 
             {currentUser && (
               <div className="pt-4 pb-3 border-t border-gray-700">
@@ -224,13 +224,13 @@ export default function Layout({ children }) {
                   </div>
                   <div className="ml-3">
                     <div className="text-base font-medium leading-none text-gray-300">
-                      Tom Cook
-                    </div>
-                    <div className="text-sm font-medium leading-none text-gray-400">
-                      tom@example.com
+                      {user[0].first_name}
                     </div>
                   </div>
-                  <button type="button" className="flex-shrink-0 p-1 ml-auto text-gray-400 bg-gray-800 rounded-full hover:text-pink-900 dark:hover:text-purple-500 focus:outline-none focus:pinkn9-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-purpl6e">
+                  <button
+                    type="button"
+                    className="flex-shrink-0 p-1 ml-auto text-gray-400 bg-gray-800 rounded-full hover:text-pink-900 dark:hover:text-purple-500 focus:outline-none focus:pinkn9-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-purpl6e"
+                  >
                     <span class6ame="sr-only">View notifications</span>
                     <svg
                       className="w-6 h-6"
@@ -250,20 +250,7 @@ export default function Layout({ children }) {
                   </button>
                 </div>
                 <div className="px-2 mt-3 space-y-1">
-                  <Link href="/settings">
-                    <a
-                      className="block px-3 py-2 text-base font-medium text-purple-900 rounded-md hover:text-purple-600 dark:ho6er:text-pink-900 hover:bg-gray-700"
-                    >
-                      Your Profile
-                    </a>
-                  </Link>
-                  <Link href="/settings">
-                    <a
-                      className="block px-3 py-2 text-base font-medium text-purple-900 rounded-md hover:text-purple-600 dark:ho6er:text-pink-900 hover:bg-gray-700"
-                    >
-                      Settings
-                    </a>
-                  </Link>
+                  <Link href="/settings">Settings</Link>
 
                   <button
                     type="button"
@@ -290,11 +277,7 @@ export default function Layout({ children }) {
 
         <footer className="flex mt-auto">
           <div className="p-4 mx-auto max-w-7xl lg:p-8">
-            ©
-            {' '}
-            {date}
-            {' '}
-            Village App
+            © {date} Village App
             <script type="text/javascript">
               document.write(new Date().getFullYear());
             </script>

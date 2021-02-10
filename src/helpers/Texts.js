@@ -1,8 +1,9 @@
 import Cookies from 'universal-cookie';
 
-import AccountTexts from '../i18n/AccountTexts';
-import CoreTexts from '../i18n/CoreTexts';
-import EventTexts from '../i18n/EventTexts';
+import AccountTexts from '@/i18n/AccountTexts';
+import CoreTexts from '@/i18n/CoreTexts';
+import EventTexts from '@/i18n/EventTexts';
+import SettingsTexts from '@/i18n/SettingsTexts';
 
 const getText = (type, text) => {
   const cookies = new Cookies();
@@ -15,7 +16,7 @@ const getText = (type, text) => {
 
   const defaultText = 'No text found';
 
-  if (type !== 'ACCOUNT' && type !== 'EVENT') {
+  if (type !== 'ACCOUNT' && type !== 'EVENT' && type !== 'SETTINGS') {
     return defaultText;
   }
 
@@ -25,6 +26,8 @@ const getText = (type, text) => {
     localeText = AccountTexts[locale][text];
   } else if (type === 'EVENT') {
     localeText = EventTexts[locale][text];
+  } else if (type === 'SETTINGS') {
+    localeText = SettingsTexts[locale][text];
   }
 
   if (localeText === undefined) {

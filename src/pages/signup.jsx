@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Link from 'next/link';
+import Link from '@/ui/link';
 
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -9,10 +9,11 @@ import * as yup from 'yup';
 
 import toast from 'react-hot-toast';
 
-import Meta from '../components/Meta';
-import getText from '../helpers/Texts';
-import { useAuth } from '../state/AuthContext';
-import { GoogleButton, FacebookButton } from '../components/SocialButtons';
+import Meta from '@/components/Meta';
+import getText from '@/helpers/Texts';
+import { useAuth } from '@/state/AuthContext';
+import { GoogleButton, FacebookButton } from '@/components/SocialButtons';
+import { supabase } from '../../supabase';
 
 export default function Signup() {
   const { signUp, signInWithSocial } = useAuth();
@@ -72,15 +73,21 @@ export default function Signup() {
     setIsLoading(true);
     try {
       const response = await signUp(
-        data.firstName,
-        data.lastName,
         data.email,
         data.password,
       );
-      const { error } = await response;
+      const { error } = response;
       if (!error) {
         setIsLoading(false);
         setSignUpSuccess(!signUpSuccess);
+        await supabase
+          .from('users')
+          .insert([{
+            id: response.data.id,
+            email: data.email,
+            first_name: data.firstName,
+            last_name: data.lastName,
+          }]);
       } else {
         toast.error(getText('ACCOUNT', 'SIGN_IN_ERROR'));
       }
@@ -303,7 +310,7 @@ export default function Signup() {
 
                 <div className="flex justify-center">
                   <Link href="/signin">
-                    <a>{getText('ACCOUNT', 'ALREADY_HAVE_ACCOUNT')}</a>
+                    {getText('ACCOUNT', 'ALREADY_HAVE_ACCOUNT')}
                   </Link>
                 </div>
 

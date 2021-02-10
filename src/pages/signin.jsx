@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
-import Link from 'next/link';
+import Link from '@/ui/link';
 
 import { DevTool } from '@hookform/devtools';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,10 +11,10 @@ import * as yup from 'yup';
 
 import toast from 'react-hot-toast';
 
-import Meta from '../components/Meta';
-import getText from '../helpers/Texts';
-import { useAuth } from '../state/AuthContext';
-import { GoogleButton, FacebookButton } from '../components/SocialButtons';
+import Meta from '@/components/Meta';
+import getText from '@/helpers/Texts';
+import { useAuth } from '@/state/AuthContext';
+import { GoogleButton, FacebookButton } from '@/components/SocialButtons';
 
 export default function Login() {
   const router = useRouter();
@@ -277,13 +277,13 @@ export default function Login() {
                 {!magicLink && !passwordReset ? (
                   <div className="flex justify-end">
                     <div
-                      className="cursor-pointer"
+                      className="cursor-pointer text-blue-500 hover:text-pink-500 outline-none"
                       onClick={() => setPasswordReset(!passwordReset)}
                       onKeyPress={() => setPasswordReset(!passwordReset)}
                       role="button"
                       tabIndex="0"
                     >
-                      <a>{getText('ACCOUNT', 'FORGOT_PASSWORD')}</a>
+                      {getText('ACCOUNT', 'FORGOT_PASSWORD')}
                     </div>
                   </div>
                 ) : (
@@ -327,13 +327,13 @@ export default function Login() {
                 <div className="flex flex-col items-center justify-center">
                   {!magicLink && !passwordReset ? (
                     <div
-                      className="cursor-pointer"
+                      className="cursor-pointer text-blue-500 hover:text-pink-500 outline-none"
                       onClick={() => setMagicLink(!magicLink)}
                       onKeyPress={() => setMagicLink(!magicLink)}
                       role="button"
                       tabIndex="0"
                     >
-                      <a>{getText('ACCOUNT', 'MAGIC_LINK')}</a>
+                      {getText('ACCOUNT', 'MAGIC_LINK')}
                     </div>
                   ) : (
                     ''
@@ -341,7 +341,7 @@ export default function Login() {
 
                   {magicLink && (
                     <div
-                      className="cursor-pointer"
+                      className="cursor-pointer text-blue-500 hover:text-pink-500 outline-none"
                       onClick={() => setMagicLink(!magicLink)}
                       onKeyPress={() => setMagicLink(!magicLink)}
                       role="button"
@@ -353,7 +353,7 @@ export default function Login() {
 
                   {!magicLink && !passwordReset ? (
                     <Link href="/signup">
-                      <a>{getText('ACCOUNT', 'NEED_AN_ACCOUNT')}</a>
+                      {getText('ACCOUNT', 'NEED_AN_ACCOUNT')}
                     </Link>
                   ) : (
                     ''
@@ -361,7 +361,7 @@ export default function Login() {
 
                   {passwordReset && (
                     <div
-                      className="cursor-pointer"
+                      className="cursor-pointer text-blue-500 hover:text-pink-500 outline-none"
                       onClick={() => setPasswordReset(!passwordReset)}
                       onKeyPress={() => setPasswordReset(!passwordReset)}
                       role="button"

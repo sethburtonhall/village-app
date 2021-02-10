@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
     } else setCurrentUser(null);
   });
 
-  const signUp = async (firstName, lastName, email, password) => {
+  const signUp = async (email, password) => {
     try {
       const response = await supabase.auth.signUp({
         email,

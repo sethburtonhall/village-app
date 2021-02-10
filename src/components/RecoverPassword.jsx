@@ -10,8 +10,8 @@ import * as yup from 'yup';
 
 import toast from 'react-hot-toast';
 
-import getText from '../helpers/Texts';
-import { useAuth } from '../state/AuthContext';
+import getText from '@/helpers/Texts';
+import { useAuth } from '@/state/AuthContext';
 
 const RecoverPassword = ({ token, setRecoveryToken }) => {
   const router = useRouter();

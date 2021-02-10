@@ -2,7 +2,7 @@ import React from 'react';
 
 // import { useRouter } from 'next/router';
 
-import { useAuth } from '../state/AuthContext';
+import { useAuth } from '@/state/AuthContext';
 
 const checkUserAuthentication = (Component) => {
   const Auth = (props) => {

@@ -9,11 +9,6 @@ body {
   @apply text-gray-900 dark:text-gray-300;
 }
 
-a {
-  @apply text-blue-500 cursor-pointer;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
 }

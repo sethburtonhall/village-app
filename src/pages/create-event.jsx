@@ -8,14 +8,14 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import toast from 'react-hot-toast';
-import { supabase } from '../../supabase';
 
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 // import DatePicker from '../components/DatePicker';
-import Meta from '../components/Meta';
-import getText from '../helpers/Texts';
-import { useAuth } from '../state/AuthContext';
+import Meta from '@/components/Meta';
+import getText from '@/helpers/Texts';
+import { useAuth } from '@/state/AuthContext';
+import { supabase } from '../../supabase';
 
 export default function CreateEvent() {
   const { currentUser } = useAuth();

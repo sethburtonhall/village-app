@@ -5,8 +5,8 @@ import { ThemeProvider } from 'next-themes';
 
 import { Toaster } from 'react-hot-toast';
 
-import Layout from '../../components/Layout';
-import { AuthProvider } from '../../state/AuthContext';
+import Layout from '@/components/Layout';
+import { AuthProvider } from '@/state/AuthContext';
 
 import './globals.css';
 

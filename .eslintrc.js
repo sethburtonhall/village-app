@@ -1,10 +1,17 @@
+/* eslint-env node */
 module.exports = {
   env: {
     browser: true,
     es2021: true,
     node: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb'],
+  extends: [
+    'plugin:react/recommended',
+    'airbnb',
+    'eslint:recommended',
+    'prettier',
+    // 'prettier/react'
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -12,7 +19,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: ['react', 'prettier'],
   rules: {
     // 'import/order': ['error', {
     //   alphabetize: {
@@ -28,17 +35,35 @@ module.exports = {
     //   }],
     //   pathGroupsExcludedImportTypes: ['react'],
     // }],
-    'jsx-a11y/anchor-is-valid': ['error', {
-      aspects: ['invalidHref', 'preferButton'],
-      components: ['Link'],
-      specialLink: ['hrefLeft', 'hrefRight'],
-    }],
-    'jsx-a11y/interactive-supports-focus': ['error', {
-      tabbable: ['button', 'checkbox', 'link', 'searchbox', 'spinbutton', 'switch', 'textbox'],
-    }],
-    'react/jsx-filename-extension': [1, {
-      extensions: ['.js', '.jsx'],
-    }],
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        aspects: ['invalidHref', 'preferButton'],
+        components: ['Link'],
+        specialLink: ['hrefLeft', 'hrefRight'],
+      },
+    ],
+    'jsx-a11y/interactive-supports-focus': [
+      'error',
+      {
+        tabbable: [
+          'button',
+          'checkbox',
+          'link',
+          'searchbox',
+          'spinbutton',
+          'switch',
+          'textbox',
+        ],
+      },
+    ],
+    'react/jsx-filename-extension': [
+      1,
+      {
+        extensions: ['.js', '.jsx'],
+      },
+    ],
     'react/jsx-props-no-spreading': 'off',
+    'react/jsx-one-expression-per-line': 'off',
   },
 };

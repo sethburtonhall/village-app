@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 // import { useRouter } from 'next/router';
-import Link from 'next/link';
+import Link from '@/ui/link';
 import Image from 'next/image';
 
-import getText from '../helpers/Texts';
-import RecoverPassword from '../components/RecoverPassword';
-// import { useAuth } from '../state/AuthContext';
+import getText from '@/helpers/Texts';
+import RecoverPassword from '@/components/RecoverPassword';
+// import { useAuth } from '@/state/AuthContext';
 
 export default function Home() {
   // const { currentUser } = useAuth();
